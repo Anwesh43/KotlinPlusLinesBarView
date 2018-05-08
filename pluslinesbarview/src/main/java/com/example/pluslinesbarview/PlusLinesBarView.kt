@@ -84,7 +84,7 @@ class PlusLinesBarView (ctx : Context) : View(ctx) {
             paint.color = Color.WHITE
             val plusW : Float = Math.min(w, h) / 20
             val lineW : Float = (Math.min(w, h) / 6) * state.scale
-            val gap : Float = h/7 
+            val gap : Float = h/7
             canvas.save()
             canvas.translate(w/2, h/2)
             for (i in 0..1) {
@@ -107,6 +107,29 @@ class PlusLinesBarView (ctx : Context) : View(ctx) {
 
         fun startUpdating(startcb : () -> Unit) {
             state.startUpdating(startcb)
+        }
+    }
+
+    data class Renderer(var view : PlusLinesBarView) {
+
+        private val plusLinesBar : PlusLinesBar = PlusLinesBar(0)
+
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#212121"))
+            plusLinesBar.draw(canvas, paint)
+            animator.animate {
+                plusLinesBar.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            plusLinesBar.startUpdating {
+                animator.start()
+            }
         }
     }
 }
