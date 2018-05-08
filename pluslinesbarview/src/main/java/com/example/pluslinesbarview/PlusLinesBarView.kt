@@ -73,4 +73,40 @@ class PlusLinesBarView (ctx : Context) : View(ctx) {
             }
         }
     }
+
+    data class PlusLinesBar (var i : Int, private val state : State = State()) {
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            val w : Float = canvas.width.toFloat()
+            val h : Float = canvas.height.toFloat()
+            paint.strokeWidth = Math.min(w, h) / 60
+            paint.strokeCap = Paint.Cap.ROUND
+            paint.color = Color.WHITE
+            val plusW : Float = Math.min(w, h) / 20
+            val lineW : Float = (Math.min(w, h) / 6) * state.scale
+            val gap : Float = h/7 
+            canvas.save()
+            canvas.translate(w/2, h/2)
+            for (i in 0..1) {
+                canvas.save()
+                canvas.rotate(90f * (1 - state.scale) * i)
+                canvas.drawLine(-plusW, 0f, plusW, 0f, paint)
+                canvas.restore()
+            }
+            var y : Float = -h/2 + gap
+            for (i in 0..3) {
+                canvas.drawLine(-lineW, y, lineW, y, paint)
+                y += gap
+            }
+            canvas.restore()
+        }
+
+        fun update(stopcb : (Float) -> Unit) {
+            state.update(stopcb)
+        }
+
+        fun startUpdating(startcb : () -> Unit) {
+            state.startUpdating(startcb)
+        }
+    }
 }
