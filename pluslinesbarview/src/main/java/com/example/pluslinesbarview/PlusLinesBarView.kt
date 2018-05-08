@@ -4,6 +4,7 @@ package com.example.pluslinesbarview
  * Created by anweshmishra on 08/05/18.
  */
 
+import android.app.Activity
 import android.view.*
 import android.content.*
 import android.graphics.*
@@ -132,6 +133,14 @@ class PlusLinesBarView (ctx : Context) : View(ctx) {
             plusLinesBar.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : PlusLinesBarView {
+            val view : PlusLinesBarView = PlusLinesBarView(activity)
+            activity.setContentView(view)
+            return view 
         }
     }
 }
