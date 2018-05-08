@@ -97,8 +97,9 @@ class PlusLinesBarView (ctx : Context) : View(ctx) {
                 canvas.restore()
             }
             var y : Float = -h/2 + gap
-            for (i in 0..3) {
-                canvas.drawLine(-lineW, y, lineW, y, paint)
+            for (i in 0..2) {
+                val x = -Math.min(w, h)/3
+                canvas.drawLine(x, y, x + 2 * lineW, y, paint)
                 y += gap
             }
             canvas.restore()
@@ -140,7 +141,7 @@ class PlusLinesBarView (ctx : Context) : View(ctx) {
         fun create(activity : Activity) : PlusLinesBarView {
             val view : PlusLinesBarView = PlusLinesBarView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
